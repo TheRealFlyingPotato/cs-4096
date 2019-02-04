@@ -15,16 +15,15 @@ $( document ).ready(function() {
 
   $("#addBtn").on('click', function() {
     addCard($("#cardname").val());
-    $("#cardname").val("");
   });
 
-  // imgSrc = 'https://img.scryfall.com/cards/large/en/m19/225.jpg?1531451238'
-  // $('[data-toggle="popover"]').popover(
-  //   {
-  //     trigger: "hover",
-  //     html: true,
-  //     content: '<div class="imgContainer"><img src="' + imgSrc + '" /></div>'
-  //   });   
+  $(document).on('keypress', function(e) {
+    if(e.which == 13)
+    {
+      e.preventDefault();
+      addCard($("#cardname").val());
+    }
+  })
 
   console.log( "ready!" );
 });
@@ -44,6 +43,7 @@ function addCard(text) {
     });  
   });
   $("#cardList").append(el);
+  $("#cardname").val("");
   return el;
 }
 
