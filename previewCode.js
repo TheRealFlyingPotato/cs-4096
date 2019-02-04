@@ -14,8 +14,8 @@ $( document ).ready(function() {
   // $(".card").mouseover(showCard);
 
   $("#addBtn").on('click', function() {
-    inp = prompt("Name: ");
-    addCard(inp);
+    addCard($("#cardname").val());
+    $("#cardname").val("");
   });
 
   // imgSrc = 'https://img.scryfall.com/cards/large/en/m19/225.jpg?1531451238'
