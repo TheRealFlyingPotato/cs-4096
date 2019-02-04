@@ -11,7 +11,12 @@ $( document ).ready(function() {
     $( "#log" ).append( "<div>Handler for .mouseover() called.</div>" );
   });
 
-  $(".card").mouseover(showCard);
+  // $(".card").mouseover(showCard);
+
+  $("#addBtn").on('click', function() {
+    inp = prompt("Name: ");
+    addCard(inp);
+  });
 
   // imgSrc = 'https://img.scryfall.com/cards/large/en/m19/225.jpg?1531451238'
   // $('[data-toggle="popover"]').popover(
