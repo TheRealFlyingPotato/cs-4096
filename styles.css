@@ -1,0 +1,10 @@
+.imgContainer {
+  width: 200px;
+  height: 120px;
+}
+
+/* resize images */
+.imgContainer img {
+  width: 100%;
+  height: auto;
+}
