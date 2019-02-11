@@ -9,19 +9,24 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+
     <script type="text/javascript" src="previewCode.js"></script>
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
     <link rel="stylesheet" href="styles.css">
+
   </head>
 </html>
 <body>
   <form>
     <div class = "form-group">
       <label for="name">Card Name:</label>
-      <input type ="text" class = "form-control" id="cardname">
+      <input type ="text" class = "form-control" id="cardname">    
+      <button type="button" class="btn-primary" id="addBtn">Add Card</button>
+      <br></br>
+      <label for="mainDeckEntry">Main Deck</label>
+      <textarea class="form-control" id = "cardEntry" rows="6"></textarea>
+      <button type="button" class="btn-primary" id="updateDeck">Update Deck</button>
     </div>
   </form>
-  <button type="button" class="btn-primary" id="addBtn">Add Card</button>
   <div id="cardList"></div>
+
 </body>
