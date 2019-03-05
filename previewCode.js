@@ -49,7 +49,13 @@ function transferToMaindeck(){
 // }
 
 function getImageUrl(name) {
-  return deckJSON[name].image;
+  try
+  {
+    return deckJSON[name].image;
+  }
+  catch(err) {
+    console.log(err.message, name)
+  }
 }
 
 function getJSONforCard(name, callback) {
@@ -143,12 +149,12 @@ function addToCategory(name, cat = "Other", num = 1, type = "custom") {
     // console.log(x);
   if (cat in viewer_categories[type])
   {
-    console.log("Category exists: " + cat);
+    // console.log("Category exists: " + cat);
     viewer_categories[type][cat].push(name);
   }
   else
   {
-    console.log("Creating category: " + cat);
+    // console.log("Creating category: " + cat);
     viewer_categories[type][cat] = [name];
   }
   //viewer_categories[cat].push
@@ -156,35 +162,52 @@ function addToCategory(name, cat = "Other", num = 1, type = "custom") {
 }
 
 function categoryExists(s) {
-
   // return document.getElementById("cat-" + s) != null;
 }
 
-function updateDeck() {
+
+function resetDeckList(callback) {
+  $("#cardList").empty();
   viewer_categories = VIEWER_CATEGORIES;
+  deckJSON = {}
+  callback();
+}
+
+function updateDeck() {
+  // console.log("I'm sorry what")
+  // viewer_categories = VIEWER_CATEGORIES;
+  // $("#cardList").empty();
+  resetDeckList(() => {
   buildCardDataFromString($("#cardEntry").val(), (json) => {
-    deckJSON = json;
-    for (var key in deckJSON) 
-    {
-      if (deckJSON[key].categories.length == 0)
-        addToCategory(key);
-      else
-        deckJSON[key].categories.forEach(function(cat) {
-          addToCategory(key, cat);
-        });
-    }
-    updatePreview();
+      deckJSON = json;
+      console.log("omega:", JSON.stringify(deckJSON));
+      for (var key in deckJSON) 
+      {
+        if (deckJSON[key].categories.length == 0)
+          addToCategory(key);
+        else
+          deckJSON[key].categories.forEach(function(cat) {
+            addToCategory(key, cat);
+          });
+      }
+
+      updatePreview();
+    });
   });
 }
 
 function updatePreview() {
+  console.log("deckJSON: ", JSON.stringify(deckJSON))
+  if (Object.keys(deckJSON).length == 0)
+    return;
   var catType = 'custom'
+  console.log("update preview: ", JSON.stringify(viewer_categories))
   for(var cat in viewer_categories[catType])
   {
     var catContainer = buildCategoryElement(cat);
     for(var i in viewer_categories[catType][cat])
     {
-      console.log(cat + ":" + viewer_categories[catType][cat][i]);
+      // console.log(cat + ":" + viewer_categories[catType][cat][i]);
       buildCardElement(catContainer, viewer_categories[catType][cat][i]);
     }
   }
@@ -199,9 +222,20 @@ function buildCategoryElement(cat)
   return el;
 }
 
+// **************************************************** //
+// Fixes the bootstrap popover being placed in
+// wrong initial position by preloading the images
+// **************************************************** //
+function preloadImage(url) {
+  // console.log("preloadImage: "+url);
+  var img = new Image();
+  img.src = url;
+}
+
+
 function buildCardElement(container, name)
 {
-  console.log("building: " + name);
+  // console.log("building: " + name);
   var el = document.createElement("a");
   el.innerHTML = name + "<br/>";
   var imgSrc = getImageUrl(name);
@@ -210,6 +244,7 @@ function buildCardElement(container, name)
       html: true,
       content: '<a class="imgContainer"><img src="' + imgSrc + '" /></a>'
     });
+  preloadImage(imgSrc);
   container.append(el);
   return el;
 }

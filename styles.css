@@ -8,6 +8,11 @@
   width: 100%;
   height: auto;
 }
+/* 
+.popover-content {
+  min-width: 150px;
+  min-height: 150px;
+} */
 
 body {
   padding: 25px 25px 75px;
