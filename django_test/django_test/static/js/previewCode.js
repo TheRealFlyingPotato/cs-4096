@@ -1,4 +1,4 @@
-var TESTING = true;
+var TESTING = false;
 var CARDVIEWS = ["custom"]
 
 $( document ).ready(function() {
