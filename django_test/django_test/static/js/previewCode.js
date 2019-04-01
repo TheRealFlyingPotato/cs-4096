@@ -62,14 +62,6 @@ function transferToMaindeck(){
   $("#cardname").val("");
 }
 
-
-
-// function getImageUrl(name,callback) {
-//   return $.getJSON( "https://api.scryfall.com/cards/named?exact=" + name, function( data ) {
-//     callback(data.image_uris.normal);
-//   });
-// }
-
 function getImageUrl(name) {
   try
   {
@@ -183,11 +175,6 @@ function addToCategory(name, cat = "Other", num = 1, type = "custom")
   }
 }
 
-function categoryExists(s) {
-  // return document.getElementById("cat-" + s) != null;
-}
-
-
 function resetDeckList(callback) {
   CARDVIEWS.forEach((name) =>{
     $("#cardview-" + name).empty();
@@ -198,9 +185,6 @@ function resetDeckList(callback) {
 }
 
 function updateDeck() {
-  // console.log("I'm sorry what")
-  // viewer_categories = VIEWER_CATEGORIES;
-  // $("#cardList").empty();
   resetDeckList(() => {
   buildCardDataFromString($("#cardEntry").val(), (json) => {
       deckJSON = json;
@@ -274,32 +258,4 @@ function buildCardElement(container, name)
   container.append(el);
   return el;
 }
-// });
-  // getImageUrl(text, function(imgSrc) {
-  //   $(el).popover({
-  //     trigger: "hover",
-  //     html: true,
-  //     content: '<a class="imgContainer"><img src="' + imgSrc + '" /></a>'
-  //   });
-  // });
-
-//   console.log("object", deckJSON);
-//   // while(!Object.keys(deckJSON).length)
-//   //   console.log(0);
-//   // console.log(deckJSON.Cancel)
-//   $.each($.parseJSON(data), function (key, value) {
-//     alert(value.<propertyname>);
-// });
-  // console.log("t1:", JSON.parse(JSON.stringify(Object.keys(deckJSON))));
-  // console.log("t2:", Object.getOwnPropertyNames(deckJSON));
-  // addCategory("Other");
-  // Object.keys(deckJSON).forEach(function(key) {
-  //   addCard(key);
-  //   // console.log(key)
-  //   // deckJSON[key].categories.forEach(function(cat) {
-  //   //   console.log(cat);
-  //   // })
-  //   // if(!categoryExists())
-
-  // });
 

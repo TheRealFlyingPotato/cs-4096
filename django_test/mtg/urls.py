@@ -8,4 +8,5 @@ urlpatterns = [
 	path('create_deck/', views.create_deck, name='create_deck'),
 	path('deck/<int:deck_id>/', views.deck, name='deck'),
 	path('deck/<int:deck_id>/add', views.add, name='add'),
+  path('editor/', views.editor, name='edit')
 ]

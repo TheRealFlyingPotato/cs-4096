@@ -31,6 +31,9 @@ def deck(request, deck_id):
 	}
 	return render(request, 'mtg/deck.html', context)
 
+def editor(request):
+  return render(request, 'mtg/editor.html', {})
+
 def add(request, deck_id):
 	deck = get_object_or_404(Decks, id=deck_id)
 	try:
