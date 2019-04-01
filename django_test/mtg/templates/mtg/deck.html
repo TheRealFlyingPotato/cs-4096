@@ -1,0 +1,7 @@
+<h1>{{ deck.name }}</h1>
+
+<ul>
+{% for card in cards %}
+	<li>{{ card.count }}x {{ card.card_name }}</li>
+{% endfor %}
+</ul>

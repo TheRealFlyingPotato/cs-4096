@@ -1,0 +1,22 @@
+<h1>Decks</h1>
+{% if deck_list %}
+<ul>
+	{% for deck in deck_list %}
+	<li><a href="{% url 'mtg:deck' deck.id %}">{{ deck.name }}</a></li>
+	{% endfor %}
+</ul>
+{% else %}
+	<p>No decks exist.</p>
+{% endif %}
+<br>
+<h3>New Deck:</h3>
+<form action="{% url 'mtg:create_deck' %}" method="post">
+{% csrf_token %}
+	Deck Name:
+	<input type="text" name="name"><br>
+	Format:
+	<input type="text" name="format"><br>
+	Description:
+	<input type="text" name="description"><br>
+	<input type="submit" value="New Deck">
+</form>
