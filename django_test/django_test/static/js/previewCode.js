@@ -42,6 +42,12 @@ $( document ).ready(function() {
       }
     ]
   }
+
+  saveDeckPostUrl = 'deck/id/update';
+  $("#saveDeck").on('click', () {
+    $.post(saveDeckPostUrl,
+      deckJSON)
+  })
   // $.post("https://api.scryfall.com/cards/collection", 
   //   idens, 
   //   function(data) {
