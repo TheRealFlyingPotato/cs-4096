@@ -1,4 +1,5 @@
 var TESTING = true;
+var CARDVIEWS = ["custom"]
 
 $( document ).ready(function() {
   $( "#outer" ).mouseover(function() {
@@ -25,6 +26,27 @@ $( document ).ready(function() {
       buildCardDataFromString($("#cardEntry").val());
     });
   }
+
+
+  idens = {
+    "identifiers": [
+      {
+        "id": "683a5707-cddb-494d-9b41-51b4584ded69"
+      },
+      {
+        "name": "Ancient Tomb"
+      },
+      {
+        "set": "mrd",
+        "collector_number": "150"
+      }
+    ]
+  }
+  // $.post("https://api.scryfall.com/cards/collection", 
+  //   idens, 
+  //   function(data) {
+	//     console.log(data);
+  // });
 
   console.log("ready!");
 });
@@ -143,22 +165,22 @@ const VIEWER_CATEGORIES = {
 };
 viewer_categories = VIEWER_CATEGORIES;
 
-function addToCategory(name, cat = "Other", num = 1, type = "custom") {
-  // console.log(viewer_categories[type])
-  // for (x in viewer_categories[type])
-    // console.log(x);
+
+// ******************************************************** //
+//      puts the cards in the viewer categories object      //
+//      no visual changes made in this function             //
+// ******************************************************** //
+
+function addToCategory(name, cat = "Other", num = 1, type = "custom") 
+{
   if (cat in viewer_categories[type])
   {
-    // console.log("Category exists: " + cat);
     viewer_categories[type][cat].push(name);
   }
   else
   {
-    // console.log("Creating category: " + cat);
     viewer_categories[type][cat] = [name];
   }
-  //viewer_categories[cat].push
-  // $("#cardList").append("<div id='cat-" + s + "' class='category'><h4>" + s + "</h4></div>");
 }
 
 function categoryExists(s) {
@@ -167,7 +189,9 @@ function categoryExists(s) {
 
 
 function resetDeckList(callback) {
-  $("#cardList").empty();
+  CARDVIEWS.forEach((name) =>{
+    $("#cardview-" + name).empty();
+  });
   viewer_categories = VIEWER_CATEGORIES;
   deckJSON = {}
   callback();
@@ -180,7 +204,7 @@ function updateDeck() {
   resetDeckList(() => {
   buildCardDataFromString($("#cardEntry").val(), (json) => {
       deckJSON = json;
-      console.log("omega:", JSON.stringify(deckJSON));
+      console.log("omega:", deckJSON, JSON.stringify(deckJSON));
       for (var key in deckJSON) 
       {
         if (deckJSON[key].categories.length == 0)
@@ -197,37 +221,39 @@ function updateDeck() {
 }
 
 function updatePreview() {
-  console.log("deckJSON: ", JSON.stringify(deckJSON))
+  //console.log("deckJSON: ", JSON.stringify(deckJSON))
   if (Object.keys(deckJSON).length == 0)
     return;
-  var catType = 'custom'
-  console.log("update preview: ", JSON.stringify(viewer_categories))
-  for(var cat in viewer_categories[catType])
+  CARDVIEWS.forEach((catType) =>
   {
-    var catContainer = buildCategoryElement(cat);
-    for(var i in viewer_categories[catType][cat])
+    console.log("building cardview-" + catType)
+    //console.log("update preview: ", JSON.stringify(viewer_categories))
+    for(var cat in viewer_categories[catType])
     {
-      // console.log(cat + ":" + viewer_categories[catType][cat][i]);
-      buildCardElement(catContainer, viewer_categories[catType][cat][i]);
+      var catContainer = buildCategoryElement(cat, "custom");
+      for(var i in viewer_categories[catType][cat])
+      {
+        // console.log(cat + ":" + viewer_categories[catType][cat][i]);
+        buildCardElement(catContainer, viewer_categories[catType][cat][i]);
+      }
     }
-  }
+  });
 }
 
-function buildCategoryElement(cat) 
+function buildCategoryElement(cat, whichCat) 
 {
   var el = document.createElement("div");
   el.setAttribute("id", "cat-" + cat);
   el.innerHTML = "<h4>" + cat + "</h4>";
-  $("#cardList").append(el);
+  $("#cardview-" + whichCat).append(el);
   return el;
 }
 
 // **************************************************** //
-// Fixes the bootstrap popover being placed in
-// wrong initial position by preloading the images
+// Fixes the bootstrap popover being placed in          //
+// wrong initial position by preloading the image       //
 // **************************************************** //
 function preloadImage(url) {
-  // console.log("preloadImage: "+url);
   var img = new Image();
   img.src = url;
 }
