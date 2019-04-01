@@ -24,7 +24,9 @@
       <button type="button" class="btn-primary" id="addBtn">Add Card</button>
       <br></br>
       <label for="mainDeckEntry">Main Deck</label>
-      <textarea class="form-control" id = "cardEntry" rows="6"></textarea>
+      <textarea class="form-control" id = "cardEntry" rows="6">
+{% for card in cards %}{{ card.card_name }} {{ card.categories }}
+{% endfor %}</textarea>
       <button type="button" class="btn-primary" id="updateDeck">Update Deck</button>
     </div>
   </form>

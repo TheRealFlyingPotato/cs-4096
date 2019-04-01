@@ -14,7 +14,7 @@ class Contents(models.Model):
 	deck_id = models.ForeignKey(Decks, on_delete=models.CASCADE)
 	card_name = models.CharField(max_length=128)
 	count = models.IntegerField(default=1)
-	# categories = models.CharField(max_length=128)
+	categories = models.CharField(max_length=128, default='')
 
 	def __str__(self):
 		return "{}x {}".format(self.count, self.card_name)
