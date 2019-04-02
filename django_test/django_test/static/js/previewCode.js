@@ -113,7 +113,20 @@ function getJSONforCard(name, callback) {
 function buildCardListRecursive(list, obj, callback) {
   c = list.pop();
   card = c.split('*');
-  getJSONforCard(card[0].trim(), function(data) {
+  console.log("x: ", card)
+  cardCount = 1; // assume only 1 card
+  cardName = card[0].trim()
+  if (!isNaN(parseInt(cardName[0], 10))) {
+    // first symbol of the card is a number
+    cardCount = cardName.split(" ", 1)[0];
+    if (cardCount[cardCount.length-1 == 'x'])
+    cardCount = cardCount.slice(0, cardCount.length - 1);
+    cardCount = parseInt(cardCount);
+  }
+  if (cardCount > 1)
+    while (cardName[0] != ' ')
+      cardName = cardName.slice(1, cardName.length)
+  getJSONforCard(cardName.trim(), function(data) {
     if (data != null)
     {
       obj[data.name] = {
@@ -121,7 +134,8 @@ function buildCardListRecursive(list, obj, callback) {
             'legalities' : data.legalities,
             'mana_cost' : data.mana_cost,
             'image' : data.image_uris.normal,
-            'type_lines' : data.type_line
+            'type_lines' : data.type_line,
+            'card_count' : cardCount
       };
       for (i = 1; i < card.length; i++)
       {
@@ -142,8 +156,7 @@ function buildCardListRecursive(list, obj, callback) {
 
 function buildCardDataFromString(s, callback) {
   var cardInfoList = s.split('\n');
-  // console.log("l--------------")
-  // console.log(cardInfoList);
+  console.log("l--------------", cardInfoList);
   var finalJSON = {};
   buildCardListRecursive(cardInfoList, finalJSON, () => {
     callback(finalJSON);
