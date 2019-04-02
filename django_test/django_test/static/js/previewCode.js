@@ -26,6 +26,10 @@ $( document ).ready(function() {
       buildCardDataFromString($("#cardEntry").val());
     });
   }
+  else
+  {
+    $("#test").toggle();
+  }
 
 
   idens = {
@@ -43,11 +47,7 @@ $( document ).ready(function() {
     ]
   }
 
-  saveDeckPostUrl = 'deck/id/update';
-  $("#saveDeck").on('click', () {
-    $.post(saveDeckPostUrl,
-      deckJSON)
-  })
+  $("#saveDeck").on('click', saveDeck);
   // $.post("https://api.scryfall.com/cards/collection", 
   //   idens, 
   //   function(data) {
@@ -56,6 +56,14 @@ $( document ).ready(function() {
 
   console.log("ready!");
 });
+
+function saveDeck () {
+  saveDeckPostUrl = '/mtg/deck/' + window.location.pathname.split("/deck/")[1].split('/editor')[0] + '/update'
+  $.post(saveDeckPostUrl,
+    deckJSON,
+    function (data) {console.log("YEEEEET", data)});
+}
+
 
 function transferToMaindeck(){
   var newName = $("#cardname").val().trim();
@@ -79,6 +87,11 @@ function getImageUrl(name) {
 }
 
 function getJSONforCard(name, callback) {
+  if (name == "")
+  {
+    callback(null);
+    return;
+  }
   return $.getJSON( "https://api.scryfall.com/cards/named?exact=" + name, function( data ) {
     callback(data);
   });
@@ -88,17 +101,20 @@ function buildCardListRecursive(list, obj, callback) {
   c = list.pop();
   card = c.split('*');
   getJSONforCard(card[0].trim(), function(data) {
-    obj[data.name] = {
-          'categories': [],
-          'legalities' : data.legalities,
-          'mana_cost' : data.mana_cost,
-          'image' : data.image_uris.normal,
-          'type_lines' : data.type_line
+    if (data != null)
+    {
+      obj[data.name] = {
+            'categories': [],
+            'legalities' : data.legalities,
+            'mana_cost' : data.mana_cost,
+            'image' : data.image_uris.normal,
+            'type_lines' : data.type_line
       };
       for (i = 1; i < card.length; i++)
       {
         obj[data.name].categories.push(card[i].trim());
       }
+    }
     if (list.length > 0)
     {
       buildCardListRecursive(list, obj, callback);
