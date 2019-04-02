@@ -58,6 +58,11 @@ $( document ).ready(function() {
 });
 
 function saveDeck () {
+  if (typeof deckJSON == "undefined")
+  {
+    console.log("deck not previewed yet")
+    return;
+  } 
   saveDeckPostUrl = '/mtg/deck/' + window.location.pathname.split("/deck/")[1].split('/editor')[0] + '/update'
   $.post(saveDeckPostUrl,
     deckJSON,
