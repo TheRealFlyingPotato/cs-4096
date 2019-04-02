@@ -2,6 +2,7 @@ var TESTING = false;
 var CARDVIEWS = ["custom"]
 
 $( document ).ready(function() {
+  console.log("are you really ready tho");
   $( "#outer" ).mouseover(function() {
     $( "#log" ).append( "<div>Handler for .mouseover() called.</div>" );
   });
@@ -63,7 +64,8 @@ function saveDeck () {
     console.log("deck not previewed yet")
     return;
   } 
-  saveDeckPostUrl = '/mtg/deck/' + window.location.pathname.split("/deck/")[1].split('/editor')[0] + '/update'
+  saveDeckPostUrl = '/mtg/deck/' + window.location.pathname.split("/deck/")[1].split('/editor')[0] + 'update'
+  // console.log("WHAT THE HECK", saveDeckPostUrl)
   $.post(saveDeckPostUrl,
     deckJSON,
     function (data) {console.log("YEEEEET", data)});
