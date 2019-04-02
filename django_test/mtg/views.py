@@ -24,12 +24,13 @@ def create_deck(request):
 	return HttpResponseRedirect(reverse('mtg:index'))
 
 def deck(request, deck_id):
-	deck = get_object_or_404(Decks, id=deck_id)
-	context = {
-		'deck': deck,
-		'cards': deck.contents_set.all(),
-	}
-	return render(request, 'mtg/deck.html', context)
+	# deck = get_object_or_404(Decks, id=deck_id)
+	# context = {
+	# 	'deck': deck,
+	# 	'cards': deck.contents_set.all(),
+	# }
+	# return render(request, 'mtg/deck.html', context)
+	return editor(request, deck_id)
 
 def editor(request, deck_id):
 	deck = get_object_or_404(Decks, id=deck_id)
@@ -39,7 +40,7 @@ def editor(request, deck_id):
 	}
 	return render(request, 'mtg/editor.html', context)
 
-def add(request, deck_id):
+def update(request, deck_id):
 	deck = get_object_or_404(Decks, id=deck_id)
 	try:
 		count = int(request.POST['count'])
