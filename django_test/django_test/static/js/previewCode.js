@@ -65,10 +65,16 @@ function saveDeck () {
     return;
   } 
   saveDeckPostUrl = '/mtg/deck/' + window.location.pathname.split("/deck/")[1].split('/editor')[0] + 'update'
-  // console.log("WHAT THE HECK", saveDeckPostUrl)
-  $.post(saveDeckPostUrl,
-    deckJSON,
-    function (data) {console.log("YEEEEET", data)});
+
+  // $.post(saveDeckPostUrl,
+  //   deckJSON,
+  //   function (data) {console.log("YEEEEET", data)});
+  $.ajax({
+    'type' : 'POST',
+    'url' : saveDeckPostUrl,
+    'success' : function(result) {console.log("Post success!: ", result)},
+    'data' : deckJSON
+  });
 }
 
 

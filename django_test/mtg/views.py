@@ -4,6 +4,8 @@ from django.urls import reverse
 
 from .models import Decks, Contents
 
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 def index(request):
 	context = {'deck_list': Decks.objects.order_by('-name')}
@@ -40,6 +42,7 @@ def editor(request, deck_id):
 	}
 	return render(request, 'mtg/editor.html', context)
 
+@csrf_exempt
 def update(request, deck_id):
 	deck = get_object_or_404(Decks, id=deck_id)
 	try:
