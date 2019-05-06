@@ -45,7 +45,6 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'mtg.apps.MtgConfig',
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
