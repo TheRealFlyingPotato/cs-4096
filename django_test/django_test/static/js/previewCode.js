@@ -145,7 +145,7 @@ function buildCardListRecursive(list, obj, callback) {
   // console.log("x: ", card)
   cardCount = 1; // assume only 1 card
   cardName = card[0].trim()
-  print("wee: ", isDigit(cardName[0]))
+  console.log("wee: ", isDigit(cardName[0]))
   if (isDigit(cardName[0])) {
     // first symbol of the card is a number
     q = cardName.split(" ");
@@ -269,6 +269,7 @@ function resetDeckList(callback) {
 function updateDeck() {
   resetDeckList(() => {
   buildCardDataFromString($("#cardEntry").val(), (json) => {
+
       deckJSON = json;
       console.log("omega:", deckJSON, JSON.stringify(deckJSON));
       for (var card in deckJSON) 
