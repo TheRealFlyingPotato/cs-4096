@@ -1,4 +1,5 @@
 var TESTING = false;
+var deckJSON = {}
 var CARDVIEWS = ["custom", "cmc", "type"]
 const VIEWER_CATEGORIES = {
   custom : {},
@@ -184,23 +185,23 @@ function buildCardListRecursive(list, obj, callback) {
   // console.log("x: ", card)
   cardCount = 1; // assume only 1 card
   cardName = card[0].trim()
-  console.log("wee: ", isDigit(cardName[0]))
+  // console.log("wee: ", isDigit(cardName[0]))
   if (isDigit(cardName[0])) {
     // first symbol of the card is a number
     q = cardName.split(" ");
-    console.log("ree: ", q);
+    // console.log("ree: ", q);
     cardCount = q.shift();
     if (cardCount[cardCount.length-1 == 'x'])
     cardCount = cardCount.slice(0, cardCount.length - 1);
     cardCount = parseInt(cardCount);
     cardName = q.join(" ");
-    console.log("reeq:", cardName, cardCount);
+    // console.log("reeq:", cardName, cardCount);
   }
-  console.log("::", cardName);
+  // console.log("::", cardName);
   //if (cardCount > 1)
   //  while (cardName[0] != ' ')
  //     cardName = cardName.slice(1, cardName.length)
-  console.log("::", cardName);
+  // console.log("::", cardName);
 
   
   getJSONforCard(cardName.trim(), function(data) {
@@ -310,7 +311,7 @@ function updateDeck() {
   buildCardDataFromString($("#cardEntry").val(), (json) => {
 
       deckJSON = json;
-      console.log("omega:", deckJSON, JSON.stringify(deckJSON));
+      // console.log("omega:", deckJSON, JSON.stringify(deckJSON));
       for (var card in deckJSON) 
       {
         // adding to custom
@@ -348,8 +349,8 @@ function updatePreview() {
       var catContainer = buildCategoryElement(cat, catType);
       for(var i in viewer_categories[catType][cat])
       {
-        // console.log(cat + ":" + viewer_categories[catType][cat][i]);
-        var name = viewer_categories[catType][cat][i]
+        var name = viewer_categories[catType][cat][i];
+        console.log(name, (name in deckJSON));
         buildCardElement(catContainer, name, deckJSON[name]["card_count"]);
       }
     }
