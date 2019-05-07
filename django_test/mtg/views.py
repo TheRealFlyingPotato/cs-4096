@@ -50,38 +50,18 @@ def update(request, deck_id):
 		print('{}: {}'.format(card, count))
 		try:
 			tmp = deck.contents_set.get(card_name=card)
-			tmp['count'] = int(count)
+			categories = count.split('*')
+			count = int(categories[0])
+			tmp.count = int(count)
+			for category in categories[1:]:
+				tmp.categories += '*' + category.strip() + ' '
 			tmp.save()
 		except (Decks.DoesNotExist, Contents.DoesNotExist):
+			categories = count.split('*')
+			categories_as_str = ""
+			for category in categories[1:]:
+				categories_as_str += '*' + category.strip() + ' '
 			deck.contents_set.create(card_name=card, count=int(count))
 			deck.save()
 
 	return HttpResponseRedirect(reverse('mtg:deck', args=(deck.id,)))
-
-	# try:
-	# 	count = int(request.POST['count'])
-	# 	card_names = []
-	# 	card_count = []
-	# 	for i in range(count):
-	# 		# Get and save cards
-	# 		card_names.append(request.POST['cn{}'.format(i)])
-	# 		card_count.append(int(request.POST['cc{}'.format(i)]))
-	# except KeyError:
-	# 	context = {
-	# 		'deck': deck,
-	# 		'error_message': 'There was a problem while saving',
-	# 	}
-	# 	return render(request, 'mtg/deck.html', context)
-
-	# for i in range(count):
-	# 	try:
-	# 		selected_card = deck.contents_set.get(card_name=card_names[i])
-	# 		selected_card.count += card_count[i]
-	# 		# TODO: limit cards here?
-	# 		selected_card.save()
-	# 	except Decks.DoesNotExist:
-	# 		deck.contents_set.create(card_name=card_names[i], 
-	# 								 count=card_count[i])
-	# 		deck.save()
-
-	# return HttpResponseRedirect(reverse('mtg:deck', args=(deck.id,)))
