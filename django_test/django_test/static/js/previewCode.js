@@ -350,7 +350,9 @@ function updatePreview() {
       {
         // console.log(cat + ":" + viewer_categories[catType][cat][i]);
         var name = viewer_categories[catType][cat][i]
-        buildCardElement(catContainer, name, deckJSON[name]["card_count"]);
+        if (deckJSON[name]) {
+          buildCardElement(catContainer, name, deckJSON[name]["card_count"]);
+        }
       }
     }
   });
