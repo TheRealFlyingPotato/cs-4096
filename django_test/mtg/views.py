@@ -45,6 +45,12 @@ def editor(request, deck_id):
 @csrf_exempt
 def update(request, deck_id):
 	deck = get_object_or_404(Decks, id=deck_id)
+
+	for card, count in request.POST.items():
+		print('{}: {}'.format(card, count))
+
+	return HttpResponseRedirect(reverse('mtg:deck', args=(deck.id,)))
+
 	try:
 		count = int(request.POST['count'])
 		card_names = []
