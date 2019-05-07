@@ -65,9 +65,10 @@ $( document ).ready(function() {
 });
 
 function saveDeck () {
+  // updateDeck();
   if (typeof deckJSON == "undefined")
   {
-    console.log("deck not previewed yet")
+    console.log("\n\n\n\n!!!!!!!!!deck not previewed yet")
     return;
   } 
   saveDeckPostUrl = '/mtg/deck/' + window.location.pathname.split("/deck/")[1].split('/editor')[0] + 'update'
@@ -91,6 +92,9 @@ function saveDeck () {
     'success' : function(result) {console.log("Post success!: ", saveDeckPostUrl)},
     'data' : deckPOST
   });
+  $("#alertLoc").html("<div class=\"alert alert-success\" role=\"alert\">Deck saved successfully!</div>")
+  setTimeout(() => {$(".alert").alert("close");},2000)
+  //$(".alert").alert()
 }
 
 
