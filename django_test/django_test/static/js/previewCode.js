@@ -75,6 +75,9 @@ function saveDeck () {
     var deckPOST = {};
     for (var key in deckJSON) {
 	deckPOST[key] = deckJSON[key].card_count;
+      for (var i = 0; i < deckJSON[key].cateories.length; i++) {
+        deckPOST[key] += '-' + deckJSON[key].cateories[i];
+      }
     }
     
   // $.post(saveDeckPostUrl,
