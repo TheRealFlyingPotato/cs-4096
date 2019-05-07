@@ -62,6 +62,15 @@ $( document ).ready(function() {
 	//     console.log(data);
   // });
 
+
+  document.getElementById("dwn-btn").addEventListener("click", function(){
+    // Generate download of deck.txt file with some content
+    var text = $("#cardEntry").val();
+    var filename = "deck.txt";
+    
+    download(filename, text);
+  }, false);
+
   console.log("ready!");
 });
 
@@ -398,5 +407,32 @@ function buildCardElement(container, name, count=1)
   preloadImage(imgSrc);
   container.append(el);
   return el;
+}
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+// Start file download.
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 }
 
