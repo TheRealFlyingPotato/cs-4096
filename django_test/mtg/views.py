@@ -68,3 +68,9 @@ def update(request, deck_id):
 			card.delete()
 
 	return HttpResponseRedirect(reverse('mtg:deck', args=(deck.id,)))
+
+def delete(request, deck_id):
+	deck = get_object_or_404(Decks, id=deck_id)
+
+	deck.delete()
+	return HttpResponseRedirect(reverse('mtg:index'))
