@@ -50,7 +50,7 @@ def update(request, deck_id):
 		print('{}: {}'.format(card, count))
 		try:
 			tmp = deck.contents_set.get(card_name=card)
-			tmp['count'] = int(count)
+			tmp.count = int(count)
 			tmp.save()
 		except (Decks.DoesNotExist, Contents.DoesNotExist):
 			deck.contents_set.create(card_name=card, count=int(count))
