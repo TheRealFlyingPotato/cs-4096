@@ -349,9 +349,11 @@ function updatePreview() {
       var catContainer = buildCategoryElement(cat, catType);
       for(var i in viewer_categories[catType][cat])
       {
-        var name = viewer_categories[catType][cat][i];
-        console.log(name, (name in deckJSON));
-        buildCardElement(catContainer, name, deckJSON[name]["card_count"]);
+        // console.log(cat + ":" + viewer_categories[catType][cat][i]);
+        var name = viewer_categories[catType][cat][i]
+        if (deckJSON[name]) {
+          buildCardElement(catContainer, name, deckJSON[name]["card_count"]);
+        }
       }
     }
   });
