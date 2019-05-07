@@ -53,12 +53,13 @@ def update(request, deck_id):
 			categories = count.split('*')
 			count = int(categories[0])
 			tmp.count = int(count)
+			tmp.categories = ''
 			for category in categories[1:]:
 				tmp.categories += '*' + category.strip() + ' '
 			tmp.save()
 		except (Decks.DoesNotExist, Contents.DoesNotExist):
 			categories = count.split('*')
-			categories_as_str = ""
+			categories_as_str = ''
 			for category in categories[1:]:
 				categories_as_str += '*' + category.strip() + ' '
 			deck.contents_set.create(card_name=card, count=int(count))
