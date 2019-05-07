@@ -48,13 +48,14 @@ def update(request, deck_id):
 
 	try:
 		cards = request.POST['data']
-		print(type(cards))
-		print(cards)
+		raise KeyError
 	except KeyError:
+		card = str(cards[0])
 		context = {
 			'deck': deck,
-			'error_message': 'There was a problem while saving',
+			'error_message': card#'There was a problem while saving',
 		}
+		return render(request, 'mtg/deck.html', context)
 
 	# try:
 	# 	count = int(request.POST['count'])
