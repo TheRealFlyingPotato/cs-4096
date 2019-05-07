@@ -45,30 +45,41 @@ def editor(request, deck_id):
 @csrf_exempt
 def update(request, deck_id):
 	deck = get_object_or_404(Decks, id=deck_id)
+
 	try:
-		count = int(request.POST['count'])
-		card_names = []
-		card_count = []
-		for i in range(count):
-			# Get and save cards
-			card_names.append(request.POST['cn{}'.format(i)])
-			card_count.append(int(request.POST['cc{}'.format(i)]))
+		cards = request.POST['data']
+		print(type(cards))
+		print(cards)
 	except KeyError:
 		context = {
 			'deck': deck,
 			'error_message': 'There was a problem while saving',
 		}
-		return render(request, 'mtg/deck.html', context)
 
-	for i in range(count):
-		try:
-			selected_card = deck.contents_set.get(card_name=card_names[i])
-			selected_card.count += card_count[i]
-			# TODO: limit cards here?
-			selected_card.save()
-		except Decks.DoesNotExist:
-			deck.contents_set.create(card_name=card_names[i], 
-									 count=card_count[i])
-			deck.save()
+	# try:
+	# 	count = int(request.POST['count'])
+	# 	card_names = []
+	# 	card_count = []
+	# 	for i in range(count):
+	# 		# Get and save cards
+	# 		card_names.append(request.POST['cn{}'.format(i)])
+	# 		card_count.append(int(request.POST['cc{}'.format(i)]))
+	# except KeyError:
+	# 	context = {
+	# 		'deck': deck,
+	# 		'error_message': 'There was a problem while saving',
+	# 	}
+	# 	return render(request, 'mtg/deck.html', context)
+
+	# for i in range(count):
+	# 	try:
+	# 		selected_card = deck.contents_set.get(card_name=card_names[i])
+	# 		selected_card.count += card_count[i]
+	# 		# TODO: limit cards here?
+	# 		selected_card.save()
+	# 	except Decks.DoesNotExist:
+	# 		deck.contents_set.create(card_name=card_names[i], 
+	# 								 count=card_count[i])
+	# 		deck.save()
 
 	return HttpResponseRedirect(reverse('mtg:deck', args=(deck.id,)))
