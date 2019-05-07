@@ -1,10 +1,15 @@
 var TESTING = false;
-var CARDVIEWS = ["custom"]
+var CARDVIEWS = ["custom", "cmc"]
+const VIEWER_CATEGORIES = {
+  custom : {},
+  cmc : {}
+};
+viewer_categories = VIEWER_CATEGORIES;
 
 $( document ).ready(function() {
   console.log("are you really ready tho");
   $( "#outer" ).mouseover(function() {
-    $( "#log" ).append( "<div>Handler for .mouseover() called.</div>" );
+    // $( "#log" ).append( "<div>Handler for .mouseover() called.</div>" );
   });
 
   $("#addBtn").on('click', function() {
@@ -110,10 +115,34 @@ function getJSONforCard(name, callback) {
   });
 }
 
+function isDigit(n) {
+  return Boolean([true, true, true, true, true, true, true, true, true, true][n]);
+}
+
+function isManaSymbol(c) {
+  return c.toUpperCase() in {"W": "", "U": "", "B": "", "R": "", "G": ""}
+}
+
+function convertToCMC(s)
+{
+  var count = 0;
+  for (i = 0; i < s.length; i++)
+  {
+    if (s[i] == '{' || s[i] == "}")
+      continue;
+    if (isManaSymbol(s[i]))
+      count += 1
+    else if (isDigit(s[i]))
+      count += parseInt(s[i], 10)
+    // console.log(i, ":", s[i])
+  }
+  return count
+}
+
 function buildCardListRecursive(list, obj, callback) {
   c = list.pop();
   card = c.split('*');
-  console.log("x: ", card)
+  // console.log("x: ", card)
   cardCount = 1; // assume only 1 card
   cardName = card[0].trim()
   if (!isNaN(parseInt(cardName[0], 10))) {
@@ -135,7 +164,8 @@ function buildCardListRecursive(list, obj, callback) {
             'mana_cost' : data.mana_cost,
             'image' : data.image_uris.normal,
             'type_lines' : data.type_line,
-            'card_count' : cardCount
+            'card_count' : cardCount,
+            'cmc' : convertToCMC(data.mana_cost)
       };
       for (i = 1; i < card.length; i++)
       {
@@ -200,10 +230,6 @@ function cardsToObject(s) {
   return dict;
 }
 
-const VIEWER_CATEGORIES = {
-  custom : {}
-};
-viewer_categories = VIEWER_CATEGORIES;
 
 
 // ******************************************************** //
@@ -237,15 +263,21 @@ function updateDeck() {
   buildCardDataFromString($("#cardEntry").val(), (json) => {
       deckJSON = json;
       console.log("omega:", deckJSON, JSON.stringify(deckJSON));
-      for (var key in deckJSON) 
+      for (var card in deckJSON) 
       {
-        if (deckJSON[key].categories.length == 0)
-          addToCategory(key);
+        // adding to custom
+        if (deckJSON[card].categories.length == 0)
+          addToCategory(card);
         else
-          deckJSON[key].categories.forEach(function(cat) {
-            addToCategory(key, cat);
+          deckJSON[card].categories.forEach(function(cat) {
+            addToCategory(card, cat);
           });
+        // adding to CMC
+        addToCategory(card, deckJSON[card]["cmc"], 1, "cmc")
+        
+          console.log("C:", card)
       }
+      console.log(deckJSON)
 
       updatePreview();
     });
@@ -262,7 +294,7 @@ function updatePreview() {
     //console.log("update preview: ", JSON.stringify(viewer_categories))
     for(var cat in viewer_categories[catType])
     {
-      var catContainer = buildCategoryElement(cat, "custom");
+      var catContainer = buildCategoryElement(cat, catType);
       for(var i in viewer_categories[catType][cat])
       {
         // console.log(cat + ":" + viewer_categories[catType][cat][i]);
@@ -274,6 +306,7 @@ function updatePreview() {
 
 function buildCategoryElement(cat, whichCat) 
 {
+  console.log("------------------Q:", cat, whichCat)
   var el = document.createElement("div");
   el.setAttribute("id", "cat-" + cat);
   el.innerHTML = "<h4>" + cat + "</h4>";
