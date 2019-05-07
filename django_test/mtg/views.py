@@ -6,6 +6,8 @@ from .models import Decks, Contents
 
 from django.views.decorators.csrf import csrf_exempt
 
+import sys
+
 # Create your views here.
 def index(request):
 	context = {'deck_list': Decks.objects.order_by('-name')}
@@ -48,8 +50,8 @@ def update(request, deck_id):
 
 	try:
 		cards = request.POST['data']
-		print(type(cards))
-		print(cards)
+		sys.stderr.write(type(cards))
+		sys.stderr.write(cards)
 	except KeyError:
 		context = {
 			'deck': deck,
