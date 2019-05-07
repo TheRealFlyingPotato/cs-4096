@@ -77,7 +77,7 @@ function saveDeck () {
   $.ajax({
     'type' : 'POST',
     'url' : saveDeckPostUrl,
-    'success' : function(result) {console.log("Post success!: ", result)},
+    'success' : function(result) {console.log("Post success!: ", saveDeckPostUrl)},
     'data' : deckJSON
   });
 }
@@ -145,16 +145,24 @@ function buildCardListRecursive(list, obj, callback) {
   // console.log("x: ", card)
   cardCount = 1; // assume only 1 card
   cardName = card[0].trim()
-  if (!isNaN(parseInt(cardName[0], 10))) {
+  print("wee: ", isDigit(cardName[0]))
+  if (isDigit(cardName[0])) {
     // first symbol of the card is a number
-    cardCount = cardName.split(" ", 1)[0];
+    q = cardName.split(" ");
+    console.log("ree: ", q);
+    cardCount = q.shift();
     if (cardCount[cardCount.length-1 == 'x'])
     cardCount = cardCount.slice(0, cardCount.length - 1);
     cardCount = parseInt(cardCount);
+    cardName = q.join(" ");
+    console.log("reeq:", cardName, cardCount);
   }
-  if (cardCount > 1)
-    while (cardName[0] != ' ')
-      cardName = cardName.slice(1, cardName.length)
+  console.log("::", cardName);
+  //if (cardCount > 1)
+  //  while (cardName[0] != ' ')
+ //     cardName = cardName.slice(1, cardName.length)
+  console.log("::", cardName);
+
   getJSONforCard(cardName.trim(), function(data) {
     if (data != null)
     {
@@ -298,7 +306,8 @@ function updatePreview() {
       for(var i in viewer_categories[catType][cat])
       {
         // console.log(cat + ":" + viewer_categories[catType][cat][i]);
-        buildCardElement(catContainer, viewer_categories[catType][cat][i]);
+        var name = viewer_categories[catType][cat][i]
+        buildCardElement(catContainer, name, deckJSON[name]["card_count"]);
       }
     }
   });
@@ -324,11 +333,11 @@ function preloadImage(url) {
 }
 
 
-function buildCardElement(container, name)
+function buildCardElement(container, name, count=1)
 {
   // console.log("building: " + name);
   var el = document.createElement("a");
-  el.innerHTML = name + "<br/>";
+  el.innerHTML = "<b>" + count + "</b> " + name + "<br/>";
   var imgSrc = getImageUrl(name);
   $(el).popover({
       trigger: "hover",
