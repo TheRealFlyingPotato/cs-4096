@@ -46,6 +46,8 @@ def editor(request, deck_id):
 def update(request, deck_id):
 	deck = get_object_or_404(Decks, id=deck_id)
 
+	print(deck)
+
 	for card, count in request.POST.items():
 		print('{}: {}'.format(card, count))
 
