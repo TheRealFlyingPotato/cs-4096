@@ -3,3 +3,4 @@ venv/
 django_test/db.sqlite3
 runserver
 *~
+*#
