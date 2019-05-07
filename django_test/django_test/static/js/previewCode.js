@@ -6,7 +6,7 @@ const VIEWER_CATEGORIES = {
   cmc : {},
   type : {},
 };
-viewer_categories = VIEWER_CATEGORIES;
+var viewer_categories = VIEWER_CATEGORIES;
 
 $( document ).ready(function() {
   console.log("are you really ready tho");
@@ -301,8 +301,12 @@ function resetDeckList(callback) {
   CARDVIEWS.forEach((name) =>{
     $("#cardview-" + name).empty();
   });
-  viewer_categories = VIEWER_CATEGORIES;
-  deckJSON = {}
+  for (key in viewer_categories)
+  {
+    viewer_categories[key] = {};
+  }
+  // viewer_categories = VIEWER_CATEGORIES;
+  deckJSON = {};
   callback();
 }
 
@@ -311,6 +315,7 @@ function updateDeck() {
   buildCardDataFromString($("#cardEntry").val(), (json) => {
 
       deckJSON = json;
+      console.log("alpha", JSON.stringify(viewer_categories));
       // console.log("omega:", deckJSON, JSON.stringify(deckJSON));
       for (var card in deckJSON) 
       {
