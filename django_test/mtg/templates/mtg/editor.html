@@ -74,7 +74,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" href="{% url 'mtg:delete' %}" value="Delete">Delete</button>
+            <a type="button" class="btn btn-danger" href="{% url 'mtg:delete' deck.id %}" value="Delete">Delete</a>
           </div>
       </div>
     </div>
