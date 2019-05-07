@@ -61,7 +61,7 @@ def update(request, deck_id):
 			categories_as_str = ''
 			for category in categories[1:]:
 				categories_as_str += '*' + category.strip() + ' '
-			deck.contents_set.create(card_name=card, count=int(count))
+			deck.contents_set.create(card_name=card, count=int(categories[0]))
 			deck.save()
 
 	return HttpResponseRedirect(reverse('mtg:deck', args=(deck.id,)))
