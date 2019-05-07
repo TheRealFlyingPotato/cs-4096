@@ -74,9 +74,11 @@ function saveDeck () {
 
     var deckPOST = {};
     for (var key in deckJSON) {
-	deckPOST[key] = deckJSON[key].card_count;
-      for (var i = 0; i < deckJSON[key].cateories.length; i++) {
-        deckPOST[key] += '-' + deckJSON[key].cateories[i];
+	    deckPOST[key] = deckJSON[key].card_count;
+      if (Array.isArray(deckJSON[key].categories)) {
+        for (var i = 0; i < deckJSON[key].categories.length; i++) {
+          deckPOST[key] += '-' + deckJSON[key].categories[i];
+        }
       }
     }
     
