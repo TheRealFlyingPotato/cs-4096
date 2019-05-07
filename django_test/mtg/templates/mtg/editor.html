@@ -32,6 +32,10 @@
 {% endfor %}</textarea>
       <button type="button" class="btn btn-primary" id="updateDeck">Update Preview</button>
       <button type="button" class="btn btn-primary" id="saveDeck">Save Deck</button>
+        <!-- Button trigger modal -->
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+      Delete Deck
+      </button>
     </div>
   </form>
   <ul class="nav nav-tabs">
@@ -52,6 +56,29 @@
         <div id="cardview-custom"></div>
       </div>
     </div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">:(</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <div class="modal-body">
+              Are you sure you want to delete this deck? This action cannot be undone.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" href="{% url 'mtg:delete' %}" value="Delete">Delete</button>
+          </div>
+      </div>
+    </div>
+  </div>
   <button type="button" class="btn-primary" id="test">Test</button>
 
 </body>

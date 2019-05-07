@@ -168,7 +168,7 @@ function getTypes(s) {
       break;
     if (l[0] == "-")
       break;
-    if (l[0] == "Legendary")
+    if (l[0] == "Legendary" || l[0] == "Basic")
     {
       l.shift();
       continue;
