@@ -1,8 +1,9 @@
 var TESTING = false;
-var CARDVIEWS = ["custom", "cmc"]
+var CARDVIEWS = ["custom", "cmc", "type"]
 const VIEWER_CATEGORIES = {
   custom : {},
-  cmc : {}
+  cmc : {},
+  type : {},
 };
 viewer_categories = VIEWER_CATEGORIES;
 
@@ -139,6 +140,30 @@ function convertToCMC(s)
   return count
 }
 
+const DASH = "—";
+function getTypes(s) {
+  var l = s.split(" ")
+  var res = []
+  var keepGoing = true;
+  while(true)
+  {
+    if (l.length == 0)
+      break;
+    if (l[0] == DASH)
+      break;
+    if (l[0] == "-")
+      break;
+    if (l[0] == "Legendary")
+    {
+      l.shift();
+      continue;
+    }
+    res.push(l.shift());
+  }
+  console.log("getTypes: ", res);
+  return res;
+}
+
 function buildCardListRecursive(list, obj, callback) {
   c = list.pop();
   card = c.split('*');
@@ -163,6 +188,7 @@ function buildCardListRecursive(list, obj, callback) {
  //     cardName = cardName.slice(1, cardName.length)
   console.log("::", cardName);
 
+  
   getJSONforCard(cardName.trim(), function(data) {
     if (data != null)
     {
@@ -171,7 +197,7 @@ function buildCardListRecursive(list, obj, callback) {
             'legalities' : data.legalities,
             'mana_cost' : data.mana_cost,
             'image' : data.image_uris.normal,
-            'type_lines' : data.type_line,
+            'types' : getTypes(data.type_line),
             'card_count' : cardCount,
             'cmc' : convertToCMC(data.mana_cost)
       };
@@ -239,13 +265,12 @@ function cardsToObject(s) {
 }
 
 
-
 // ******************************************************** //
 //      puts the cards in the viewer categories object      //
 //      no visual changes made in this function             //
 // ******************************************************** //
 
-function addToCategory(name, cat = "Other", num = 1, type = "custom") 
+function addToCategory(name, cat = "Other", type = "custom") 
 {
   if (cat in viewer_categories[type])
   {
@@ -282,9 +307,12 @@ function updateDeck() {
             addToCategory(card, cat);
           });
         // adding to CMC
-        addToCategory(card, deckJSON[card]["cmc"], 1, "cmc")
-        
-          console.log("C:", card)
+        addToCategory(card, deckJSON[card]["cmc"], "cmc")
+        // adding to card types
+          deckJSON[card].types.forEach((t) => {
+            addToCategory(card, t, "type")
+          });
+
       }
       console.log(deckJSON)
 
