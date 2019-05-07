@@ -72,6 +72,11 @@ function saveDeck () {
   } 
   saveDeckPostUrl = '/mtg/deck/' + window.location.pathname.split("/deck/")[1].split('/editor')[0] + 'update'
 
+    var deckPOST = {};
+    for (var key in deckJSON) {
+	deckPOST[key] = deckJSON[key].card_count;
+    }
+    
   // $.post(saveDeckPostUrl,
   //   deckJSON,
   //   function (data) {console.log("YEEEEET", data)});
@@ -79,7 +84,7 @@ function saveDeck () {
     'type' : 'POST',
     'url' : saveDeckPostUrl,
     'success' : function(result) {console.log("Post success!: ", saveDeckPostUrl)},
-    'data' : deckJSON
+    'data' : deckPOST
   });
 }
 
